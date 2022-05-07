@@ -11,7 +11,7 @@
 
 2. Prototypes
 
- behavior delegation : forget clases and let objects cooperate through the prototype chain
+ behavior delegation : dont uses clases and let objects cooperate through the prototype chain
 
 3. Types and coercion
 
