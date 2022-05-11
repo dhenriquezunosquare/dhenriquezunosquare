@@ -14,7 +14,7 @@ let fn2= function () {
     return new Promise((resolve, reject) => {
         setTimeout(() =>{
             reject("Done");
-            resolve("Done");
+            //resolve("Done");
         },100)
     })
 }
@@ -33,5 +33,5 @@ Promise.race([fn1(),fn2()])
 .then((data) => {
  console.log(data);
 }).catch((err) => {
-    console.error(err);
+    console.error("error "+err);
 })
