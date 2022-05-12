@@ -1,0 +1,1 @@
+[1, 2, 3].map(val => val * 2); //generates [2, 4, 6]
