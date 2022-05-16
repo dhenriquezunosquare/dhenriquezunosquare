@@ -11,16 +11,16 @@ const popover = (
 
 const checboxLabel = (
     <span>
-    <OverlayTrigger placement="right" overlay={popover}>
-      <span style={{ color: 'blue' }}> Terms and Conditions</span>
-    </OverlayTrigger>
-  </span>
+        <OverlayTrigger placement="right" overlay={popover}>
+            <span style={{ color: 'blue' }}> Terms and Conditions</span>
+        </OverlayTrigger>
+    </span>
 )
 
 
 
 
-export const SummaryForm = () => {
+export const SummaryForm = ({ setOrderPhase }) => {
     const [terms, setTerms] = useState(false);
 
     const handleCheckbox = (e) => {
@@ -29,6 +29,9 @@ export const SummaryForm = () => {
 
     const handleClick = (e) => {
         console.log("Clicking...");
+        setOrderPhase("completed");
+
+
     }
 
     return (
