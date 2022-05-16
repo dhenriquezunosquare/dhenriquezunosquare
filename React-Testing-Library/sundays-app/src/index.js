@@ -4,13 +4,12 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { SummaryForm } from "./pages/summary/SummaryForm";
-import "./App.css";
+import { Options } from "./pages/entry/Options";
+import App from "./App";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <SummaryForm />
-  </React.StrictMode>
+    <App/>
 );
 
 // If you want to start measuring performance in your app, pass a function
