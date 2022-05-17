@@ -6,7 +6,7 @@ import { Options } from './Options'
 
 export const OrderEntry = ({setOrderPhase}) => {
   const [orderDetails, updateItemCount] = useOrderDetails();
-
+  const disabledBtn=orderDetails.totals.scoops ==='$0.00';
   const handleClick = (e) => {
     setOrderPhase('review');
   }
@@ -16,7 +16,7 @@ export const OrderEntry = ({setOrderPhase}) => {
       <Options optionType="scoops" />
       <Options optionType="toppings" />
       <h2>Grand total: {orderDetails.totals.grandTotal}</h2>
-      <Button onClick={() => handleClick('review')}>
+      <Button disabled={disabledBtn} onClick={() => handleClick('review')}>
         Order sundae
       </Button>
     </div>
