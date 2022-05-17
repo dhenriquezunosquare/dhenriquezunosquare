@@ -25,3 +25,15 @@ test('should render images for toppings correctly', async()=> {
     expect(altTexts).toEqual(['Cherries topping','M&Ms topping','Hot fudge topping'])
 
 })
+
+test('dont update total if scoops input is invalid', async()=> {
+    render(<Options optionType="scoops" />)
+
+    const vanilaInput = await screen.findByRole('spinbutton', { name: 'Vanilla'});
+    await userEvent.clear(vanilaInput);
+    await userEvent.type(vanilaInput,'-1');
+
+    const scoopsSubtotal =  screen.getByText('Scoops total: $0.00',{exact: false})
+    expect(scoopsSubtotal).toBeInTheDocument();
+
+})
