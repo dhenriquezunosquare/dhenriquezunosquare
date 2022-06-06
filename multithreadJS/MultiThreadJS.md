@@ -413,3 +413,35 @@ The Atomics.notify() method attempts to awaken other threads that have called At
 ```javascript
 const awaken = Atomics.notify(typedArray, index, count = Infinity)
 ```
+
+## Multithreaded Patterns
+
+The JavaScript APIs that expose multithreading are, on their own, really quite basic with the functionality they provide. As you saw in Chapter 4, the purpose of the SharedArrayBuffer is to store a raw, binary representation of data. Even Chapter 5 continued this pattern with the Atomics object, exposing rather primitive methods for coordinating or modifying a handful of bytes at a time.
+
+### Thread Pool
+
+ thread pool is a collection of homogeneous worker threads that are each capable of carrying out CPU-intensive tasks that the application may depend on.
+ The first question when creating a thread pool is how many threads should be in the pool?
+
+#### Pool Size
+
+Typically, the size of a thread pool won’t need to dynamically change throughout the lifetime of an application. Usually there’s a reason the number of workers is chosen, and that reason doesn’t often change. That’s why you’ll work with a thread pool with a fixed size, dynamically chosen when the application launches.
+
+```javascript
+// browser
+cores = navigator.hardwareConcurrency;
+// Node.js
+cores = require('os').cpus().length;
+```
+
+> Another thing to keep in mind is that if an application makes a thread pool with four workers, then the minimum number of threads that application is using is five because the main thread of the application also comes into play
+
+#### Dispatch Strategies
+
+A few strategies are often employed by applications to dispatch tasks to workers in a worker pool. These strategies draw parallels to those used by reverse proxies for the purpose of sending requests to backend services. Here’s a list of the most common strategies:
+
+- RoundRobin: Each task is given to the next worker in the pool, wrapping around to the beginning once the end has been hit. So, with a pool size of three, the first task goes to Worker 1, then Worker 2, then Worker 3, then back to Worker 1, and so on.
+
+- Random: Each task is assigned to a random worker in the pool. Although this is the simplest to build, being entirely stateless, it can also mean that some of the workers are sometimes given too much work to perform, and others will sometimes be given too little work to perform.
+
+- Least Busy(difficult): A count of the number of tasks being performed by each worker is maintained, and when a new task comes along it is given to the least busy worker
