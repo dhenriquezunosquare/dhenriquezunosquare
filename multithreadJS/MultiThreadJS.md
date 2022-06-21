@@ -445,3 +445,51 @@ A few strategies are often employed by applications to dispatch tasks to workers
 - Random: Each task is assigned to a random worker in the pool. Although this is the simplest to build, being entirely stateless, it can also mean that some of the workers are sometimes given too much work to perform, and others will sometimes be given too little work to perform.
 
 - Least Busy(difficult): A count of the number of tasks being performed by each worker is maintained, and when a new task comes along it is given to the least busy worker
+
+### Actor Model
+
+The actor model is a programming pattern for performing concurrent computation. With this model an actor is a primitive container that
+allows for executing code. An actor is capable of running logic, creating more actors, sending messages to other actors, and receiving messages.
+
+> One draw of the actor model is that actors don’t need to be limited to a single machine. This means that processes can run on more than one machine and communicate over the network. We can implement this using Node.js processes, each communicating using JSON via the TCP protocol.
+
+## Web Assembly
+
+Web Assembly(WASM) is a binary-encoded instruction format that runs on a stackbased virtual machine. It’s designed with security in mind and runs in a sandbox where the only things it has access to are memory and functions provided by the host environment.
+
+Since long before WebAssembly, Emscripten has been the go-to way to compile C and C++ programs for use in JavaScript environments. Today, it supports multithreaded C and C++ code using web workers in browsers and worker_threads in Node.js.
+
+>this topic was a little difficult to me.
+
+## Analysis
+
+By and large the main reason to add workers to an application is to increase performance. But this trade-off comes with a cost of added complexity. The KISS principle, meaning “Keep It Simple, Stupid,” suggests that your applications should be so stupidly simple that anyone can quickly look at the code and get an understanding of it. Being able to read code after it has been written is of paramount importance and simply adding threads to a program without purpose is an absolute violation of KISS.
+
+### When not to use Threading
+
+- Low Memory Constraints: if you dont have enough memory ... DO NOT use threads
+
+- Low Core Count: Your application will run slower in situations where it has
+fewer cores. This is especially true if the machine has a single
+core, and it can also be true if it has two cores.
+
+### When to us Threading
+
+- Heavy math:Another characteristic of problems that are a good fit for threads are those that involve a heavy use of math, aka CPU-intensive work.
+
+- Embarrassingly parallel: his is a class of problems where a large task can be
+broken down into smaller tasks and very little or no sharing of state is required
+
+- MapReduce-friendly problems: MapReduce-friendly problems MapReduce is a programming model that is inspired by functional programming. This model is often used for largescale data processing that has been spread across many different machines.
+
+- Graphics processing: A lot of graphics processing tasks also benefit from multiple threads. Much like the Game of Life problem, which operates on a grid of cells, images are represented as a grid of pixels. In both cases the value at each coordinate can be represented as a number, though Game of Life uses a single 1-bit number while images are more likely to use 3 or 4 bytes (red, green, blue, and optional alpha transparency).
+
+### Summary of Caveats(advertencias)
+
+- Complexity:Applications tend to be more complex when using shared memory. This is especially true if you are hand-writing calls with Atomics and manually working with SharedBufferArray instances.
+
+- Memory overhead: There is additional memory overhead with each thread that is added to a program. This memory overhead is compounded if a lot of modules are being loaded in each thread.
+
+- No DOM access: Only the main thread of a browser-based application has access to the DOM. This can make it difficult to offload UI rendering tasks to another thread.
+
+- No shared objects: The inability to share objects between threads can make it difficult to easily convert a single-threaded application to a multithreaded one. Instead, when it comes to mutating objects, you’ll need to pass messages around that end up mutating an object that lives in a single location.
